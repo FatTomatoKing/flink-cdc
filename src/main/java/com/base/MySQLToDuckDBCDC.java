@@ -72,6 +72,7 @@ public class MySQLToDuckDBCDC {
                 .tableList(buildTableList(mysqlDatabase, mysqlTables))
                 .username(mysqlUsername)
                 .password(mysqlPassword)
+                .serverTimeZone("UTC") // 设置服务器时区
                 .startupOptions(StartupOptions.initial()) // 从初始快照开始
                 .deserializer(new JsonDebeziumDeserializationSchema())
                 .debeziumProperties(debeziumProps)

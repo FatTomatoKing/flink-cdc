@@ -102,17 +102,51 @@ mvn clean package
 
 ### 3. 运行程序
 
-#### 方式一：IDE 中运行
+#### 方式一：使用启动脚本（推荐）
 
-直接运行 `MySQLToDuckDBCDC` 类的 main 方法。
-
-#### 方式二：命令行运行
-
-```bash
-java -jar target/flink-cdc-1.0-SNAPSHOT.jar
+**Windows:**
+```cmd
+run.bat
 ```
 
-#### 方式三：提交到 Flink 集群
+**Linux/Mac:**
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+#### 方式二：IDE 中运行
+
+1. 在 IDE 中打开项目
+2. 找到 `com.base.MySQLToDuckDBCDC` 类
+3. 右键点击 main 方法，选择 "Run" 或 "Debug"
+
+**注意**: 确保已经执行过 `mvn compile` 来下载所有依赖。
+
+#### 方式三：命令行运行
+
+```bash
+# 先编译
+mvn clean package
+
+# 运行
+java -cp target/flink-cdc-1.0-SNAPSHOT.jar com.base.MySQLToDuckDBCDC
+```
+
+#### 方式四：提交到 Flink 集群
+
+如果要部署到生产环境的 Flink 集群，需要修改 `pom.xml` 中 Flink 依赖的 scope 为 `provided`：
+
+```xml
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java</artifactId>
+    <version>${flink.version}</version>
+    <scope>provided</scope>  <!-- 添加这行 -->
+</dependency>
+```
+
+然后提交任务：
 
 ```bash
 # 下载并启动 Flink
